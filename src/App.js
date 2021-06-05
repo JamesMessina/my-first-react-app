@@ -1,10 +1,11 @@
-import React, { Component } from 'react';  
+import React, { Component } from 'react'; 
+import TodoCard from './TodoCard' 
 import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
 
     this.state = {
       isClicked: false,
@@ -32,10 +33,11 @@ class App extends Component {
   }
 
   handleDelete = (index) =>{
-    console.log(this.state.todoList[index])
-    this.state.todoList.splice(index, 1); 
-    this.setState({todoList: [...this.state.todoList]})
-    console.log(this.state.todoList); 
+    console.log("item at index " + index + " was clicked");
+    let copyOfTodoList = this.state.todoList; 
+    copyOfTodoList.splice(index, 1); 
+    this.setState({todoList: [...copyOfTodoList]})
+    console.log("todo deleted at index " + index); 
   }
 
 
@@ -51,19 +53,15 @@ class App extends Component {
           <button type="submit">Submit</button>
         </form>
         <ol>{this.state.todoList.map((todo, index) => {
-          return <li key={index}>
-                    {todo}
-                    <button onClick={()=> this.handleDelete(index)}>Delete todo</button>
-                 </li>
-                })}
-        </ol>
+          return <TodoCard key={index} index={index} title={todo} clickToRemove={this.handleDelete}/>
+          })}</ol>
         <a
           className="App-link"
           href="https://reactjs.org"
           target="_blank"
           rel="noopener noreferrer"
           >
-          Learn React
+          {this.props.name}
         </a>
       </header>
     </div>
